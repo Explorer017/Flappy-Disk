@@ -61,7 +61,7 @@ int main() {
     raylib::Color textColor(LIGHTGRAY);
     raylib::Window w(screenWidth, screenHeight, "Flappy Disk [ALPHA 0.1.0]");
     
-    SetTargetFPS(30);
+    SetTargetFPS(60);
 
     int playerSize = 50;
     int pipes_on_screen = 0;
