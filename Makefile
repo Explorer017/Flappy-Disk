@@ -65,9 +65,9 @@ submodules:
 # Copy the relevant header files into includes
 include: submodules
 	$(MKDIR) $(call platformpth, ./include)
-	$(call COPY,vendor/raylib-cpp/vendor/raylib/src,./include,raylib.h)
-	$(call COPY,vendor/raylib-cpp/vendor/raylib/src,./include,raymath.h)
-	$(call COPY,vendor/raylib-cpp/include,./include,*.hpp)
+	$(call COPY,vendor/raylib-cpp/vendor/raylib/src,./include/raylib-cpp,raylib.h)
+	$(call COPY,vendor/raylib-cpp/vendor/raylib/src,./include/raylib-cpp,raymath.h)
+	$(call COPY,vendor/raylib-cpp/include,./include/raylib-cpp,*.hpp)
 
 # Build the raylib static library file and copy it into lib
 lib: submodules
