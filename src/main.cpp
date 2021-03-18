@@ -24,7 +24,7 @@ class pipe {
         double x;
         int height;
         void drawPipe(){
-            DrawRectangle(x,0,100,(screenHeight-height)- 200,GREEN);
+            DrawRectangle(x,0,100,(screenHeight-height)- 250,GREEN);
             DrawRectangle(x,(screenHeight-height),100,height,GREEN);
     }
 
@@ -87,7 +87,7 @@ int main() {
             y = grav(y);
             if (IsKeyPressed(KEY_SPACE)) {jump(y);}
             if (Pipe.x < 0-Pipe.height){ Pipe.x = screenWidth;
-                                         Pipe.height = rand() % (screenHeight-300) + 100;}
+                                         Pipe.height = rand() % (screenHeight-350) + 100;}
             Pipe.x = Pipe.x - (pipeSpeed * deltaTime / 100);
             Pipe.drawPipe();
         }
