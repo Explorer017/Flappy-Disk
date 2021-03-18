@@ -114,7 +114,7 @@ int main() {
 
         if (CheckCollisionRecs(player, Pipe.Rec1) || CheckCollisionRecs(player, Pipe.Rec2)|| CheckCollisionRecs(player, Pipe2.Rec1)|| CheckCollisionRecs(player, Pipe2.Rec2)){
             die();
-        } 
+        }
         DrawText(("Collision?: " + std::to_string(deltaTime)).c_str(),0,500,20,GOLD);
        // DrawRectangle((screenWidth/2)-(playerSize/2),y,playerSize,playerSize,RED);
         DrawRectangleRec(player,RED);
