@@ -1,3 +1,4 @@
+#include <stdlib.h>
 
 class pipe {
     public:
@@ -8,3 +9,8 @@ class pipe {
             DrawRectangle(x,(screenHeight-height),100,height,GREEN);
     }
 };
+
+int resetPipe(int screenHeight){
+    //return rand() % 100 + (screenHeight-350);
+    return rand() % 100 + 100;
+}

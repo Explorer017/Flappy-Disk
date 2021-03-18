@@ -57,7 +57,10 @@ int main() {
 
     pipe Pipe;
     Pipe.x = screenWidth;
-    Pipe.height = 200;
+    Pipe.height = resetPipe(screenHeight);;
+    pipe Pipe2;
+    Pipe2.x = screenWidth + (screenWidth/2);
+    Pipe2.height = resetPipe(screenHeight);
 
 
     // Main game loop
@@ -72,13 +75,21 @@ int main() {
             y = grav(y);
             // Check for jumping
             if (IsKeyPressed(KEY_SPACE)) {jump(y);}
-            if (Pipe.x < 0-Pipe.height){ Pipe.x = screenWidth; Pipe.height = rand() % (screenHeight-350) + 100;}
+            if (Pipe.x < 0-100){ Pipe.x = screenWidth; Pipe.height = resetPipe(screenHeight);}
             Pipe.x = Pipe.x - (pipeSpeed * deltaTime / 100);
             Pipe.drawPipe(screenHeight);
+
+            if (Pipe2.x < 0-100){ Pipe2.x = screenWidth; Pipe2.height = resetPipe(screenHeight);}
+            Pipe2.x = Pipe2.x - (pipeSpeed * deltaTime / 100);
+            Pipe2.drawPipe(screenHeight);
 
             if (y >= ((screenHeight-50)+deathModifier)){
                 y = screenHeight/2;
                 velocity = 0;
+                Pipe.x = screenWidth;
+                Pipe.height = resetPipe(screenHeight);;
+                Pipe2.x = screenWidth + (screenWidth/2);
+                Pipe2.height = resetPipe(screenHeight);
                 gameBegin = false;
              }
         }
@@ -99,7 +110,8 @@ int main() {
         DrawText(("Time: " + std::to_string(Time)).c_str(),0,50,20,GOLD);
         DrawText(("FPS: " + std::to_string(GetFPS())).c_str(),0,75,20,GOLD);
         DrawText(("PipeX: " + std::to_string(Pipe.x)).c_str(),0,100,20,GOLD);
-        DrawText(("Last Deltatime: " + std::to_string(deltaTime)).c_str(),0,125,20,GOLD);
+        DrawText(("Pipe2X: " + std::to_string(Pipe2.x)).c_str(),0,125,20,GOLD);
+        DrawText(("Last Deltatime: " + std::to_string(deltaTime)).c_str(),0,150,20,GOLD);
         DrawRectangle((screenWidth/2)-(playerSize/2),y,playerSize,playerSize,RED);
         EndDrawing();
 
