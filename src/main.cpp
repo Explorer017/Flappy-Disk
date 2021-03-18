@@ -85,9 +85,11 @@ int main() {
         if (gameBegin) {
             // Gravity
             y = grav(y);
+            // Check for jumping
             if (IsKeyPressed(KEY_SPACE)) {jump(y);}
-            if (Pipe.x < 0-Pipe.height){ Pipe.x = screenWidth;
-                                         Pipe.height = rand() % (screenHeight-350) + 100;}
+            // Calculate Pipe locations
+            // Check if Pipe has gone out of bounds
+            if (Pipe.x < 0-Pipe.height){ Pipe.x = screenWidth; Pipe.height = rand() % (screenHeight-350) + 100;}
             Pipe.x = Pipe.x - (pipeSpeed * deltaTime / 100);
             Pipe.drawPipe();
         }
