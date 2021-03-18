@@ -12,6 +12,7 @@ double timestep = 0.1;
 double Time= 0;
 double velocity = 0;
 bool gameBegin = false;
+bool inGame = true;
 double deltaTime;
 double oldTime = clock();
 
@@ -47,13 +48,9 @@ pipe Pipe2 = {screenWidth + (screenWidth/2),resetPipe(screenHeight) };
 
 
 void die(){
-    player.y = screenHeight/2;
-    velocity = 0;
-    Pipe.x = screenWidth;
-    Pipe.height = resetPipe(screenHeight);;
-    Pipe2.x = screenWidth + (screenWidth/2);
-    Pipe2.height = resetPipe(screenHeight);
-    gameBegin = false;
+    
+    inGame = false;
+
 }
 
 int main() {
@@ -76,7 +73,7 @@ int main() {
 
         // Check if the game has begun
         if (gameBegin) {
-            // Gravity
+            if (inGame){            // Gravity
             player.y = grav(player.y);
             // Check for jumping
             if (IsKeyPressed(KEY_SPACE)) {jump(player.y);}
@@ -91,13 +88,31 @@ int main() {
             if (player.y >= ((screenHeight-50)+deathModifier)){
                 die();
              }
+            } 
+            else if (!inGame) {
+                DrawText("OH NO! You died!", 20, (screenHeight/2)+player.width+10,50,RED);
+                Pipe.drawPipe(screenHeight);
+                Pipe2.drawPipe(screenHeight);
+                if (IsKeyPressed(KEY_SPACE)) {
+                    player.y = screenHeight/2;
+                    velocity = 0;
+                    Pipe.x = screenWidth;
+                    Pipe.height = resetPipe(screenHeight);;
+                    Pipe2.x = screenWidth + (screenWidth/2);
+                    Pipe2.height = resetPipe(screenHeight);
+                    inGame = true;
+                    gameBegin = false;
+                }
+            }
+
         }
         else {
-            DrawText("Press [SPACE] to start", 20, (screenHeight/2)+player.width+10,30,RED);
+            DrawText("Press [SPACE] to start", 20, (screenHeight/2)+player.width+10,30,GOLD);
             if (IsKeyPressed(KEY_SPACE)) {gameBegin = true;
+                                          inGame = true;
                                           jump(player.y);}
-            
-        }
+           
+     }
 
         
         
@@ -115,7 +130,7 @@ int main() {
         if (CheckCollisionRecs(player, Pipe.Rec1) || CheckCollisionRecs(player, Pipe.Rec2)|| CheckCollisionRecs(player, Pipe2.Rec1)|| CheckCollisionRecs(player, Pipe2.Rec2)){
             die();
         }
-        DrawText(("Collision?: " + std::to_string(deltaTime)).c_str(),0,500,20,GOLD);
+
        // DrawRectangle((screenWidth/2)-(playerSize/2),y,playerSize,playerSize,RED);
         DrawRectangleRec(player,RED);
         EndDrawing();
