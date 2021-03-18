@@ -17,8 +17,7 @@ double oldTime = clock();
 
 int pipeSpeed = 25;
 
-int screenWidth = 854;
-int screenHeight = 480;
+
 
 double grav(double y) {
     y += timestep * (velocity + timestep * acceleration / 2) * deltaTime;
@@ -41,6 +40,22 @@ void UpdateTime(){
     Time += timestep;
 }
 
+Rectangle player{(screenWidth/2)-(35/2),(screenHeight/2)-(35/2), 35,35};
+
+pipe Pipe = {screenWidth,resetPipe(screenHeight)};
+pipe Pipe2 = {screenWidth + (screenWidth/2),resetPipe(screenHeight) };
+
+
+void die(){
+    player.y = screenHeight/2;
+    velocity = 0;
+    Pipe.x = screenWidth;
+    Pipe.height = resetPipe(screenHeight);;
+    Pipe2.x = screenWidth + (screenWidth/2);
+    Pipe2.height = resetPipe(screenHeight);
+    gameBegin = false;
+}
+
 int main() {
     
     // Initialization
@@ -51,16 +66,6 @@ int main() {
     
     SetTargetFPS(75);
 
-    int playerSize = 35;
-    int pipes_on_screen = 0;
-    double y = (screenHeight/2)-(playerSize/2);
-
-    pipe Pipe;
-    Pipe.x = screenWidth;
-    Pipe.height = resetPipe(screenHeight);;
-    pipe Pipe2;
-    Pipe2.x = screenWidth + (screenWidth/2);
-    Pipe2.height = resetPipe(screenHeight);
 
 
     // Main game loop
@@ -72,9 +77,9 @@ int main() {
         // Check if the game has begun
         if (gameBegin) {
             // Gravity
-            y = grav(y);
+            player.y = grav(player.y);
             // Check for jumping
-            if (IsKeyPressed(KEY_SPACE)) {jump(y);}
+            if (IsKeyPressed(KEY_SPACE)) {jump(player.y);}
             if (Pipe.x < 0-100){ Pipe.x = screenWidth; Pipe.height = resetPipe(screenHeight);}
             Pipe.x = Pipe.x - (pipeSpeed * deltaTime / 100);
             Pipe.drawPipe(screenHeight);
@@ -83,20 +88,14 @@ int main() {
             Pipe2.x = Pipe2.x - (pipeSpeed * deltaTime / 100);
             Pipe2.drawPipe(screenHeight);
 
-            if (y >= ((screenHeight-50)+deathModifier)){
-                y = screenHeight/2;
-                velocity = 0;
-                Pipe.x = screenWidth;
-                Pipe.height = resetPipe(screenHeight);;
-                Pipe2.x = screenWidth + (screenWidth/2);
-                Pipe2.height = resetPipe(screenHeight);
-                gameBegin = false;
+            if (player.y >= ((screenHeight-50)+deathModifier)){
+                die();
              }
         }
         else {
-            DrawText("Press [SPACE] to start", 20, (screenHeight/2)+playerSize+10,30,RED);
+            DrawText("Press [SPACE] to start", 20, (screenHeight/2)+player.width+10,30,RED);
             if (IsKeyPressed(KEY_SPACE)) {gameBegin = true;
-                                          jump(y);}
+                                          jump(player.y);}
             
         }
 
@@ -105,14 +104,20 @@ int main() {
         // Draw
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        DrawText(("Y: " + std::to_string(y)).c_str(),0,0,20,GOLD);
+        DrawText(("Y: " + std::to_string(player.y)).c_str(),0,0,20,GOLD);
         DrawText(("Downwards Velocity: " + std::to_string(velocity)).c_str(),0,25,20,GOLD);
         DrawText(("Time: " + std::to_string(Time)).c_str(),0,50,20,GOLD);
         DrawText(("FPS: " + std::to_string(GetFPS())).c_str(),0,75,20,GOLD);
         DrawText(("PipeX: " + std::to_string(Pipe.x)).c_str(),0,100,20,GOLD);
         DrawText(("Pipe2X: " + std::to_string(Pipe2.x)).c_str(),0,125,20,GOLD);
         DrawText(("Last Deltatime: " + std::to_string(deltaTime)).c_str(),0,150,20,GOLD);
-        DrawRectangle((screenWidth/2)-(playerSize/2),y,playerSize,playerSize,RED);
+
+        if (CheckCollisionRecs(player, Pipe.Rec1) || CheckCollisionRecs(player, Pipe.Rec2)|| CheckCollisionRecs(player, Pipe2.Rec1)|| CheckCollisionRecs(player, Pipe2.Rec2)){
+            die();
+        } 
+        DrawText(("Collision?: " + std::to_string(deltaTime)).c_str(),0,500,20,GOLD);
+       // DrawRectangle((screenWidth/2)-(playerSize/2),y,playerSize,playerSize,RED);
+        DrawRectangleRec(player,RED);
         EndDrawing();
 
 
