@@ -5,7 +5,7 @@ class pipe {
         double x;
         int height;
         void drawPipe(int screenHeight){
-            DrawRectangle(x,0,100,(screenHeight-height)- 250,GREEN);
+            DrawRectangle(x,0,100,(screenHeight-height)- 200,GREEN);
             DrawRectangle(x,(screenHeight-height),100,height,GREEN);
     }
 };
