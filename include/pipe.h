@@ -11,6 +11,5 @@ class pipe {
 };
 
 int resetPipe(int screenHeight){
-    //return rand() % 100 + (screenHeight-350);
     return rand() % 100 + 100;
 }
