@@ -97,7 +97,7 @@ int main() {
                     player.y = screenHeight/2;
                     velocity = 0;
                     Pipe.x = screenWidth;
-                    Pipe.height = resetPipe(screenHeight);;
+                    Pipe.height = resetPipe(screenHeight);
                     Pipe2.x = screenWidth + (screenWidth/2);
                     Pipe2.height = resetPipe(screenHeight);
                     inGame = true;
