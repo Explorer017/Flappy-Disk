@@ -90,9 +90,9 @@ int main() {
              }
             } 
             else if (!inGame) {
-                DrawText("OH NO! You died!", 20, (screenHeight/2)+player.width+10,50,RED);
                 Pipe.drawPipe(screenHeight);
                 Pipe2.drawPipe(screenHeight);
+                DrawText("OH NO! You died!", 20, (screenHeight/2)+player.width+10,50,RED);
                 if (IsKeyPressed(KEY_SPACE)) {
                     player.y = screenHeight/2;
                     velocity = 0;
