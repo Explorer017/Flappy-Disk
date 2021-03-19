@@ -118,7 +118,7 @@ int main() {
                                           jump(player.y);}
         } 
         if (CheckCollisionRecs(player, Pipe.Rec1) || CheckCollisionRecs(player, Pipe.Rec2)|| CheckCollisionRecs(player, Pipe2.Rec1)|| CheckCollisionRecs(player, Pipe2.Rec2)){
-            //die();
+            die();
         }
         if (player.x > Pipe.x){
             if (!pipePass){
