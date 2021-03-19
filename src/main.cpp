@@ -6,6 +6,8 @@
 #include <iostream>
 //using namespace std;
 
+int score;
+
 int deathModifier = 10;
 double acceleration = 0.4;
 double timestep = 0.1;
@@ -18,7 +20,8 @@ double oldTime = clock();
 
 int pipeSpeed = 25;
 
-
+bool pipePass;
+bool pipe2Pass;
 
 double grav(double y) {
     y += timestep * (velocity + timestep * acceleration / 2) * deltaTime;
@@ -77,11 +80,11 @@ int main() {
             player.y = grav(player.y);
             // Check for jumping
             if (IsKeyPressed(KEY_SPACE)) {jump(player.y);}
-            if (Pipe.x < 0-100){ Pipe.x = screenWidth; Pipe.height = resetPipe(screenHeight);}
+            if (Pipe.x < 0-100){ Pipe.x = screenWidth; Pipe.height = resetPipe(screenHeight); pipePass = false;}
             Pipe.x = Pipe.x - (pipeSpeed * deltaTime / 100);
             Pipe.drawPipe(screenHeight);
 
-            if (Pipe2.x < 0-100){ Pipe2.x = screenWidth; Pipe2.height = resetPipe(screenHeight);}
+            if (Pipe2.x < 0-100){ Pipe2.x = screenWidth; Pipe2.height = resetPipe(screenHeight); pipe2Pass = false;}
             Pipe2.x = Pipe2.x - (pipeSpeed * deltaTime / 100);
             Pipe2.drawPipe(screenHeight);
 
@@ -102,9 +105,11 @@ int main() {
                     Pipe2.height = resetPipe(screenHeight);
                     inGame = true;
                     gameBegin = false;
+                    score = 0;
+                    pipePass = false;
+                    pipe2Pass = false;
                 }
             }
-
         }
         else {
             DrawText("Press [SPACE] to start", 20, (screenHeight/2)+player.width+10,30,GOLD);
@@ -113,9 +118,19 @@ int main() {
                                           jump(player.y);}
         } 
         if (CheckCollisionRecs(player, Pipe.Rec1) || CheckCollisionRecs(player, Pipe.Rec2)|| CheckCollisionRecs(player, Pipe2.Rec1)|| CheckCollisionRecs(player, Pipe2.Rec2)){
-            die();
+            //die();
         }
-
+        if (player.x > Pipe.x){
+            if (!pipePass){
+                score ++;
+                pipePass = true;
+            }
+        } else if (player.x > Pipe2.x){
+            if (!pipe2Pass){
+                score ++;
+                pipe2Pass = true;
+            }
+        }
         
         
         // Draw
@@ -130,6 +145,7 @@ int main() {
         DrawText(("Last Deltatime: " + std::to_string(deltaTime)).c_str(),0,150,20,GOLD);
        // DrawRectangle((screenWidth/2)-(playerSize/2),y,playerSize,playerSize,RED);
         DrawRectangleRec(player,RED);
+        DrawText((std::to_string(score)).c_str(),(screenWidth/2)-(40/2)+(25/2),20,40,GOLD);
         EndDrawing();
 
 
