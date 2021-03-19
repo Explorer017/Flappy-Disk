@@ -23,6 +23,7 @@ int pipeSpeed = 25;
 bool pipePass;
 bool pipe2Pass;
 
+
 double grav(double y) {
     y += timestep * (velocity + timestep * acceleration / 2) * deltaTime;
     velocity += timestep * acceleration * deltaTime;
@@ -49,12 +50,13 @@ Rectangle player{(screenWidth/2)-(35/2),(screenHeight/2)-(35/2), 35,35};
 pipe Pipe = {screenWidth,resetPipe(screenHeight)};
 pipe Pipe2 = {screenWidth + (screenWidth/2),resetPipe(screenHeight) };
 
-
 void die(){
     
     inGame = false;
 
 }
+
+int greg;
 
 int main() {
     
@@ -62,11 +64,11 @@ int main() {
 
 
     raylib::Color textColor(LIGHTGRAY);
-    raylib::Window w(screenWidth, screenHeight, "Flappy Disk [ALPHA 0.1.0]");
+    raylib::Window w(screenWidth, screenHeight, "Flappy Disk [ALPHA 0.2.0]");
     
     SetTargetFPS(75);
 
-
+    Texture2D flop = LoadTexture("./assets/floppy.png");
 
     // Main game loop
     while (!w.ShouldClose()) // Detect window close button or ESC key
@@ -136,18 +138,19 @@ int main() {
         // Draw
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        DrawText(("Y: " + std::to_string(player.y)).c_str(),0,0,20,GOLD);
-        DrawText(("Downwards Velocity: " + std::to_string(velocity)).c_str(),0,25,20,GOLD);
-        DrawText(("Time: " + std::to_string(Time)).c_str(),0,50,20,GOLD);
-        DrawText(("FPS: " + std::to_string(GetFPS())).c_str(),0,75,20,GOLD);
-        DrawText(("PipeX: " + std::to_string(Pipe.x)).c_str(),0,100,20,GOLD);
-        DrawText(("Pipe2X: " + std::to_string(Pipe2.x)).c_str(),0,125,20,GOLD);
-        DrawText(("Last Deltatime: " + std::to_string(deltaTime)).c_str(),0,150,20,GOLD);
+        //DrawText(("Y: " + std::to_string(player.y)).c_str(),0,0,20,GOLD);
+        //DrawText(("Downwards Velocity: " + std::to_string(velocity)).c_str(),0,25,20,GOLD);
+        //DrawText(("Time: " + std::to_string(Time)).c_str(),0,50,20,GOLD);
+        //DrawText(("FPS: " + std::to_string(GetFPS())).c_str(),0,75,20,GOLD);
+        //DrawText(("PipeX: " + std::to_string(Pipe.x)).c_str(),0,100,20,GOLD);
+        //DrawText(("Pipe2X: " + std::to_string(Pipe2.x)).c_str(),0,125,20,GOLD);
+        //DrawText(("Last Deltatime: " + std::to_string(deltaTime)).c_str(),0,150,20,GOLD);
        // DrawRectangle((screenWidth/2)-(playerSize/2),y,playerSize,playerSize,RED);
-        DrawRectangleRec(player,RED);
+        //DrawRectangleRec(player,RED);
+        //DrawTextureRec(flop,player,{player.x,player.y},WHITE);
+        DrawTextureEx(flop,{player.x,player.y},0,1,WHITE);
         DrawText((std::to_string(score)).c_str(),(screenWidth/2)-(40/2)+(25/2),20,40,GOLD);
         EndDrawing();
-
 
     }
 
