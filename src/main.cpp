@@ -111,8 +111,10 @@ int main() {
             if (IsKeyPressed(KEY_SPACE)) {gameBegin = true;
                                           inGame = true;
                                           jump(player.y);}
-           
-     }
+        } 
+        if (CheckCollisionRecs(player, Pipe.Rec1) || CheckCollisionRecs(player, Pipe.Rec2)|| CheckCollisionRecs(player, Pipe2.Rec1)|| CheckCollisionRecs(player, Pipe2.Rec2)){
+            die();
+        }
 
         
         
@@ -126,11 +128,6 @@ int main() {
         DrawText(("PipeX: " + std::to_string(Pipe.x)).c_str(),0,100,20,GOLD);
         DrawText(("Pipe2X: " + std::to_string(Pipe2.x)).c_str(),0,125,20,GOLD);
         DrawText(("Last Deltatime: " + std::to_string(deltaTime)).c_str(),0,150,20,GOLD);
-
-        if (CheckCollisionRecs(player, Pipe.Rec1) || CheckCollisionRecs(player, Pipe.Rec2)|| CheckCollisionRecs(player, Pipe2.Rec1)|| CheckCollisionRecs(player, Pipe2.Rec2)){
-            die();
-        }
-
        // DrawRectangle((screenWidth/2)-(playerSize/2),y,playerSize,playerSize,RED);
         DrawRectangleRec(player,RED);
         EndDrawing();
